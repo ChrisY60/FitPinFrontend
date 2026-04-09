@@ -1,0 +1,111 @@
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#root > div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100svh;
+  margin: 0;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-page);
+  box-sizing: border-box;
+  padding: 24px 16px;
+}
+
+#root > div > div {
+  width: 100%;
+  max-width: 400px;
+  background: var(--color-bg-card);
+  border-radius: 20px;
+  padding: 40px 28px 36px;
+  box-shadow:
+    0 4px 6px var(--color-shadow),
+    0 20px 40px var(--color-shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+#root > div > div h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-main);
+  letter-spacing: -0.5px;
+  margin: 0 0 6px;
+  text-align: center;
+}
+
+#root > div > div h2::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-highlight);
+  margin: 10px auto 28px;
+}
+
+#root > div > div input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 10px;
+  font-size: 15px;
+  color: var(--color-text);
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+}
+
+#root > div > div input::placeholder {
+  color: var(--color-soft);
+  font-size: 14px;
+}
+
+#root > div > div input:focus {
+  border-color: var(--color-important);
+  box-shadow: 0 0 0 3px rgba(151, 239, 233, 0.35);
+}
+
+#root > div > div button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 6px;
+  background: var(--color-important);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  font-family: inherit;
+}
+
+#root > div > div button:hover {
+  background: var(--color-secondary);
+  box-shadow: 0 6px 18px var(--color-shadow-lg);
+  transform: translateY(-1px);
+}
+
+#root > div > div button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}

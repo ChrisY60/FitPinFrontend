@@ -1,0 +1,18 @@
+:root {
+  /* ── Brand Palette ─────────────────────────────── */
+  --color-main:       #2e0219;   /* darkest maroon  – primary text, headers   */
+  --color-secondary:  #4a001f;   /* deep red        – secondary text, borders */
+  --color-important:  #6a0f49;   /* purple-magenta  – buttons, CTAs, focus    */
+  --color-soft:       #a7c4c2;   /* muted teal      – subtle borders, muted   */
+  --color-highlight:  #97efe9;   /* bright mint     – hover, focus ring       */
+
+  /* ── Derived / Utility ─────────────────────────── */
+  --color-bg:         #ffffff;
+  --color-bg-page:    #f5f0f2;   /* very light rose-white page background     */
+  --color-bg-card:    #ffffff;
+  --color-text:       #2e0219;
+  --color-text-muted: #6a0f49;
+  --color-border:     #d6c4cc;
+  --color-shadow:     rgba(46, 2, 25, 0.10);
+  --color-shadow-lg:  rgba(46, 2, 25, 0.18);
+}
