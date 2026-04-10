@@ -4,13 +4,6 @@ html, body {
   margin: 0;
 }
 
-#root > div {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 #root {
   width: 100%;
   max-width: 100%;
@@ -25,7 +18,7 @@ html, body {
   padding: 24px 16px;
 }
 
-#root > div > div {
+.registration-card {
   width: 100%;
   max-width: 400px;
   background: var(--color-bg-card);
@@ -39,7 +32,7 @@ html, body {
   gap: 0;
 }
 
-#root > div > div h2 {
+.registration-card h2 {
   font-size: 28px;
   font-weight: 700;
   color: var(--color-main);
@@ -48,7 +41,7 @@ html, body {
   text-align: center;
 }
 
-#root > div > div h2::after {
+.registration-card h2::after {
   content: '';
   display: block;
   width: 40px;
@@ -58,7 +51,7 @@ html, body {
   margin: 10px auto 28px;
 }
 
-#root > div > div input {
+.registration-card input {
   width: 100%;
   box-sizing: border-box;
   padding: 14px 16px;
@@ -73,17 +66,17 @@ html, body {
   font-family: inherit;
 }
 
-#root > div > div input::placeholder {
+.registration-card input::placeholder {
   color: var(--color-soft);
   font-size: 14px;
 }
 
-#root > div > div input:focus {
+.registration-card input:focus {
   border-color: var(--color-important);
   box-shadow: 0 0 0 3px rgba(151, 239, 233, 0.35);
 }
 
-#root > div > div button {
+.registration-card button {
   width: 100%;
   padding: 15px;
   margin-top: 6px;
@@ -99,13 +92,13 @@ html, body {
   font-family: inherit;
 }
 
-#root > div > div button:hover {
+.registration-card button:hover {
   background: var(--color-secondary);
   box-shadow: 0 6px 18px var(--color-shadow-lg);
   transform: translateY(-1px);
 }
 
-#root > div > div button:active {
+.registration-card button:active {
   transform: translateY(0);
   box-shadow: none;
 }
