@@ -2,6 +2,7 @@
 import type { RegisterRequest } from "../api/fitPinBackendApi";
 import { useState } from "react";
 import { registerUser } from "../api/fitPinBackendApi";
+import './RegistrationForm.css';
 function RegistrationForm (){
 	const [formData, setFormData] = useState<RegisterRequest>({
 		username: "",
@@ -13,7 +14,6 @@ function RegistrationForm (){
 
 	const handleSubmit = async () => {
 		try {
-			setMessage("Registration successful");
 			const response = await registerUser(formData);
 			console.log("Registration successful:", response);
 		} catch (error) {
@@ -31,7 +31,7 @@ function RegistrationForm (){
 
 
 	return ( 
-		<div>
+		<div className="registration-card">
 
 			<h2>Register</h2>
 
