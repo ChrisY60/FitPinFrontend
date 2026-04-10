@@ -10,12 +10,17 @@ html, body {
   min-height: 100svh;
   margin: 0;
   border: none;
+  background: var(--color-bg-page);
+  box-sizing: border-box;
+}
+
+.auth-page {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-bg-page);
-  box-sizing: border-box;
+  min-height: 100svh;
   padding: 24px 16px;
+  box-sizing: border-box;
 }
 
 .registration-card {
@@ -101,4 +106,23 @@ html, body {
 .registration-card button:active {
   transform: translateY(0);
   box-shadow: none;
+}
+
+.auth-switch {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.auth-switch a {
+  color: var(--color-important);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.auth-switch a:hover {
+  color: var(--color-secondary);
+  text-decoration: underline;
 }

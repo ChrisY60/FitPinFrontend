@@ -1,6 +1,7 @@
 
 import type { RegisterRequest } from "../api/fitPinBackendApi";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { registerUser } from "../api/fitPinBackendApi";
 import './RegistrationForm.css';
 function RegistrationForm (){
@@ -62,6 +63,10 @@ function RegistrationForm (){
 			/>
 
 			<button onClick={handleSubmit}>Register</button>
+
+			<p className="auth-switch">
+				Already have an account? <Link to="/login">Log in here</Link>
+			</p>
 
 		</div>
 	)

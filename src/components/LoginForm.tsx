@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { loginUser } from "../api/fitPinBackendApi";
 import './RegistrationForm.css';
 
@@ -48,6 +49,10 @@ function LoginForm() {
                 onChange={handleChange}
             />
             <button onClick={handleSubmit}>Login</button>
+
+            <p className="auth-switch">
+                Don't have an account yet? <Link to="/register">Register here</Link>
+            </p>
         </div>
     );
 }

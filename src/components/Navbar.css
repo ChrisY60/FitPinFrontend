@@ -1,0 +1,130 @@
+/* ── Navbar ────────────────────────────────────────── */
+
+.navbar {
+  position: fixed;
+  z-index: 100;
+  background: var(--color-bg-card);
+  display: flex;
+  align-items: center;
+}
+
+/* ── Desktop: left sidebar ─────────────────────────── */
+@media (min-width: 768px) {
+  .navbar {
+    top: 0;
+    left: 0;
+    width: 72px;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 32px 0;
+    border-right: 1.5px solid var(--color-border);
+    box-shadow: 2px 0 12px var(--color-shadow);
+    gap: 8px;
+    box-sizing: border-box;
+  }
+}
+
+/* ── Mobile: bottom bar ────────────────────────────── */
+@media (max-width: 767px) {
+  .navbar {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 64px;
+    flex-direction: row;
+    justify-content: space-around;
+    border-top: 1.5px solid var(--color-border);
+    box-shadow: 0 -2px 12px var(--color-shadow);
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+}
+
+/* ── Nav items ─────────────────────────────────────── */
+
+.navbar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: background 0.18s, transform 0.15s;
+  text-decoration: none;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .navbar-item {
+    width: 56px;
+    padding: 12px 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar-item {
+    flex: 1;
+    height: 100%;
+    padding: 8px 0;
+    border-radius: 8px;
+  }
+}
+
+.navbar-item:hover {
+  background: var(--color-bg-page);
+  transform: scale(1.07);
+}
+
+.navbar-item.active {
+  color: var(--color-important);
+}
+
+.navbar-item.active .navbar-icon {
+  filter: none;
+  opacity: 1;
+}
+
+/* ── Icon image ────────────────────────────────────── */
+
+.navbar-icon {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  opacity: 0.55;
+  transition: opacity 0.18s;
+}
+
+.navbar-item:hover .navbar-icon,
+.navbar-item.active .navbar-icon {
+  opacity: 1;
+}
+
+/* ── Label ─────────────────────────────────────────── */
+
+.navbar-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: inherit;
+  line-height: 1;
+}
+
+/* ── Page layout offset ────────────────────────────── */
+
+.with-navbar {
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .with-navbar {
+    padding-left: 72px;
+  }
+}
+
+@media (max-width: 767px) {
+  .with-navbar {
+    padding-bottom: 64px;
+  }
+}
