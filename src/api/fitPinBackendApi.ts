@@ -12,11 +12,11 @@ export type LoginRequest = {
 }
 
 export async function registerUser(data: RegisterRequest) {
-	const response = await apiClient.post("/users/register", data);
+	const response = await apiClient.post("/auth/register", data);
 	return response.data;
 }
 
 export async function loginUser(data: LoginRequest) {
-	const response = await apiClient.post("/users/login", data);
+	const response = await apiClient.post("/auth/login", data);
 	return response.data;
 }
