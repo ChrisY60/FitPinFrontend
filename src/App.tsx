@@ -4,6 +4,7 @@ import RegistrationForm from './components/RegistrationForm'
 import LoginForm from './components/LoginForm'
 import Navbar from './components/Navbar'
 import './colors.css'
+import FeedPage from './components/FeedPage';
 
 const AUTH_ROUTES = ['/login', '/register'];
 
@@ -18,6 +19,7 @@ function Layout() {
         <Routes>
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/" element={<FeedPage/>} />
         </Routes>
       </div>
     </>
