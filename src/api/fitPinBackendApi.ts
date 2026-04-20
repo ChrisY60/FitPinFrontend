@@ -20,3 +20,9 @@ export async function loginUser(data: LoginRequest) {
 	const response = await apiClient.post("/auth/login", data);
 	return response.data;
 }
+
+
+export async function getFeed() {
+	const response = await apiClient.get("/posts");
+	return response.data;
+}

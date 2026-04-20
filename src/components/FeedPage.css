@@ -1,0 +1,250 @@
+.feed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 16px;
+    background: var(--color-bg-page);
+    min-height: 100vh;
+}
+
+/* ── Card ─────────────────────────────────────────── */
+.post-card {
+    width: 100%;
+    max-width: 400px;
+    background: var(--color-bg-card);
+    border-radius: 16px;
+    box-shadow: 0 2px 12px var(--color-shadow);
+    overflow: hidden;
+}
+
+/* ── Header ───────────────────────────────────────── */
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+}
+
+.post-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--color-border);
+    flex-shrink: 0;
+}
+
+.post-header-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-username {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-main);
+}
+
+.post-timestamp {
+    font-size: 11px;
+    color: var(--color-text-muted);
+}
+
+/* ── Slide-up container ───────────────────────────── */
+.post-image-flipper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.post-image-front {
+    position: absolute;
+    inset: 0;
+}
+
+.post-image-back {
+    position: absolute;
+    inset: 0;
+    background: var(--color-bg-card);
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%);
+    transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.post-image-flipper.flipped .post-image-back {
+    transform: translateY(0%);
+}
+
+/* ── Front side ───────────────────────────────────── */
+.post-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.post-image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 32px 14px 12px;
+    background: linear-gradient(to top, rgba(0,0,0,0.55), transparent);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+}
+
+/* ── Back side ────────────────────────────────────── */
+.post-products-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 14px 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-main);
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.post-products-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+}
+
+.post-products-close svg {
+    width: 18px;
+    height: 18px;
+}
+
+.post-products-list {
+    list-style: none;
+    margin: 0;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.post-products-empty {
+    color: var(--color-text-muted);
+    font-size: 14px;
+    text-align: center;
+    padding: 40px 0;
+}
+
+.post-product-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--color-bg-page);
+    border: 1px solid var(--color-border);
+}
+
+.post-product-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--color-important);
+}
+
+.post-product-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.post-product-icon img {
+    width: 75%;
+    height: 75%;
+    object-fit: contain;
+    border-radius: 6px;
+}
+
+.post-product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.post-product-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-main);
+}
+
+.post-product-brand {
+    font-size: 12px;
+    color: var(--color-text-muted);
+}
+
+/* ── Footer ───────────────────────────────────────── */
+.post-footer {
+    padding: 10px 14px 6px;
+}
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.post-action {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--color-main);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.post-action svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--color-main);
+    fill: none;
+}
+
+.post-action-save {
+    margin-left: auto;
+}
+
+/* ── Tags ─────────────────────────────────────────── */
+.post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 14px 12px;
+}
+
+.post-tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--color-bg-page);
+    color: var(--color-important);
+    border: 1px solid var(--color-border);
+}
