@@ -1,9 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../api/fitPinBackendApi";
 import './RegistrationForm.css';
 
 function LoginForm() {
+    const navigate = useNavigate();
     const [formData, setFormData] = React.useState({
         emailOrUsername: "",
         password: ""
@@ -14,10 +15,12 @@ function LoginForm() {
     const handleSubmit = async () => {
         try {
             const response = await loginUser(formData);
-            setMessage("Login successful!");
             console.log("Login successful:", response);
+            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("username", response.username);
+            navigate("/");
         } catch (error) {
-            setMessage(error.response?.data?.message ?? "Something went wrong");
+            setMessage((error as any).response?.data?.message ?? "Something went wrong");
             console.log("Login failed:", error);
         }
     }

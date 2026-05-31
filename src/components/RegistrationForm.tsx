@@ -18,7 +18,7 @@ function RegistrationForm (){
 			const response = await registerUser(formData);
 			console.log("Registration successful:", response);
 		} catch (error) {
-			setMessage(error.response?.data?.message ?? "Something went wrong");
+			setMessage((error as any).response?.data?.message ?? "Something went wrong");
 			console.log("Registration failed:", error);
 		}
 	}
