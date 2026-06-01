@@ -26,12 +26,39 @@
     padding: 12px 14px;
 }
 
+.post-header-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+}
+
+.post-header-link:hover .post-username {
+    color: var(--color-important);
+}
+
 .post-avatar {
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background: var(--color-border);
     flex-shrink: 0;
+}
+
+.post-avatar-img {
+    object-fit: cover;
+    border: 1.5px solid var(--color-border);
+}
+
+.post-avatar-initials {
+    background: var(--color-important);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .post-header-info {
@@ -229,6 +256,30 @@
 
 .post-action-save {
     margin-left: auto;
+}
+
+/* ── Caption ──────────────────────────────────────── */
+.post-caption {
+    padding: 2px 14px 12px;
+    font-size: 14px;
+    color: var(--color-text);
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.post-caption-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    font-family: inherit;
+}
+
+.post-caption-toggle:hover {
+    color: var(--color-important);
 }
 
 /* ── Tags ─────────────────────────────────────────── */

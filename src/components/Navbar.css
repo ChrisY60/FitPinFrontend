@@ -111,6 +111,21 @@
   line-height: 1;
 }
 
+/* ── Create-post item ──────────────────────────────── */
+
+.navbar-item-create .navbar-icon-svg {
+  stroke: var(--color-important);
+  opacity: 0.75;
+  width: 26px;
+  height: 26px;
+  transition: opacity 0.18s;
+}
+
+.navbar-item-create:hover .navbar-icon-svg,
+.navbar-item-create.active .navbar-icon-svg {
+  opacity: 1;
+}
+
 /* ── Page layout offset ────────────────────────────── */
 
 .with-navbar {

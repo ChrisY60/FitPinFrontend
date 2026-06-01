@@ -1,35 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import type { PostResponseDTO } from "../api/fitPinBackendApi";
 import { getFeed } from "../api/fitPinBackendApi";
 import "./FeedPage.css";
 import defaultProductImage from "../assets/default_product_image.png";
 
-interface BrandDTO {
-    id: number;
-    name: string;
-}
-
-interface ProductDTO {
-    id: number;
-    name: string;
-    brand: BrandDTO;
-}
-
-interface TagDTO {
-    id: number;
-    name: string;
-}
-
-interface PostResponseDTO {
-    id: number;
-    publisherUsername: string;
-    timestamp: string;
-    imageUrl: string;
-    caption: string;
-    likeCount: number;
-    commentCount: number;
-    tags: TagDTO[];
-    products: ProductDTO[];
-}
+const CAPTION_LIMIT = 120;
 
 function timeAgo(timestamp: string): string {
     const diff = Math.floor((Date.now() - new Date(timestamp).getTime()) / 1000);
@@ -39,9 +15,21 @@ function timeAgo(timestamp: string): string {
     return `${Math.floor(diff / 86400)}d ago`;
 }
 
+function Avatar({ src, username }: { src: string | null; username: string }) {
+    if (src) {
+        return <img className="post-avatar post-avatar-img" src={src} alt={username} />;
+    }
+    return (
+        <div className="post-avatar post-avatar-initials">
+            {username.charAt(0).toUpperCase()}
+        </div>
+    );
+}
+
 function FeedPage() {
     const [posts, setPosts] = React.useState<PostResponseDTO[]>([]);
     const [flippedPosts, setFlippedPosts] = React.useState<Set<number>>(new Set());
+    const [expandedCaptions, setExpandedCaptions] = React.useState<Set<number>>(new Set());
 
     React.useEffect(() => {
         async function fetchPosts() {
@@ -60,32 +48,44 @@ function FeedPage() {
         });
     }
 
+    function toggleCaption(postId: number) {
+        setExpandedCaptions((prev) => {
+            const next = new Set(prev);
+            if (next.has(postId)) next.delete(postId);
+            else next.add(postId);
+            return next;
+        });
+    }
+
     return (
         <div className="feed">
             {posts.map((post) => {
                 const flipped = flippedPosts.has(post.id);
+                const captionExpanded = expandedCaptions.has(post.id);
+                const captionLong = post.caption && post.caption.length > CAPTION_LIMIT;
+
                 return (
                     <div key={post.id} className="post-card">
 
                         <div className="post-header">
-                            <div className="post-avatar" />
-                            <div className="post-header-info">
-                                <span className="post-username">{post.publisherUsername}</span>
-                                <span className="post-timestamp">{timeAgo(post.timestamp)}</span>
-                            </div>
+                            <Link to={`/profile/${post.publisherUsername}`} className="post-header-link">
+                                <Avatar src={post.publisherProfilePictureUrl} username={post.publisherUsername} />
+                                <div className="post-header-info">
+                                    <span className="post-username">{post.publisherUsername}</span>
+                                    <span className="post-timestamp">{timeAgo(post.timestamp)}</span>
+                                </div>
+                            </Link>
                         </div>
 
                         <div
                             className={`post-image-flipper${flipped ? " flipped" : ""}`}
                             onClick={() => toggleFlip(post.id)}
                         >
-                            {/* Front — photo */}
                             <div className="post-image-front">
                                 <img className="post-image" src={post.imageUrl} alt={post.caption} />
                                 <div className="post-image-overlay">Click to View the Clothes</div>
                             </div>
 
-                            {/* Back — products */}
                             <div className="post-image-back" onClick={(e) => e.stopPropagation()}>
                                 <div className="post-products-header">
                                     <span>Products</span>
@@ -94,7 +94,7 @@ function FeedPage() {
                                         onClick={(e) => { e.stopPropagation(); toggleFlip(post.id); }}
                                     >
                                         <svg viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" fill="none">
-                                            <path d="M18 6L6 18M6 6l12 12"/>
+                                            <path d="M18 6L6 18M6 6l12 12" />
                                         </svg>
                                     </button>
                                 </div>
@@ -105,7 +105,10 @@ function FeedPage() {
                                         post.products.map((product) => (
                                             <li key={product.id} className="post-product-item">
                                                 <div className="post-product-icon">
-                                                    <img src={defaultProductImage} alt="product" />
+                                                    <img
+                                                        src={product.imageUrl ?? defaultProductImage}
+                                                        alt={product.name}
+                                                    />
                                                 </div>
                                                 <div className="post-product-info">
                                                     <span className="post-product-name">{product.name}</span>
@@ -121,15 +124,15 @@ function FeedPage() {
                         <div className="post-footer">
                             <div className="post-actions">
                                 <button className="post-action">
-                                    <svg viewBox="0 0 24 24" strokeWidth={1.8}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    <svg viewBox="0 0 24 24" strokeWidth={1.8}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
                                     {post.likeCount}
                                 </button>
                                 <button className="post-action">
-                                    <svg viewBox="0 0 24 24" strokeWidth={1.8}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                    <svg viewBox="0 0 24 24" strokeWidth={1.8}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
                                     {post.commentCount}
                                 </button>
                                 <button className="post-action post-action-save">
-                                    <svg viewBox="0 0 24 24" strokeWidth={1.8}><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                                    <svg viewBox="0 0 24 24" strokeWidth={1.8}><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
                                 </button>
                             </div>
                         </div>
@@ -139,6 +142,24 @@ function FeedPage() {
                                 {post.tags.map((tag) => (
                                     <span key={tag.id} className="post-tag">{tag.name}</span>
                                 ))}
+                            </div>
+                        )}
+
+                        {post.caption && (
+                            <div className="post-caption">
+                                <span>
+                                    {captionLong && !captionExpanded
+                                        ? post.caption.slice(0, CAPTION_LIMIT) + "…"
+                                        : post.caption}
+                                </span>
+                                {captionLong && (
+                                    <button
+                                        className="post-caption-toggle"
+                                        onClick={() => toggleCaption(post.id)}
+                                    >
+                                        {captionExpanded ? " less" : " more"}
+                                    </button>
+                                )}
                             </div>
                         )}
 

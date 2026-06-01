@@ -7,6 +7,7 @@ import Navbar from './components/Navbar'
 import './colors.css'
 import FeedPage from './components/FeedPage';
 import ProfilePage from './components/ProfilePage';
+import CreatePostForm from './components/CreatePostForm';
 
 const AUTH_ROUTES = ['/login', '/register'];
 
@@ -27,7 +28,8 @@ function Layout() {
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/" element={<ProtectedRoute><FeedPage /></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="/profile/:username" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="/create-post" element={<ProtectedRoute><CreatePostForm /></ProtectedRoute>} />
         </Routes>
       </div>
     </>

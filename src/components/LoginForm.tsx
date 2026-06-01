@@ -18,6 +18,8 @@ function LoginForm() {
             console.log("Login successful:", response);
             localStorage.setItem("isLoggedIn", "true");
             localStorage.setItem("username", response.username);
+            localStorage.setItem("userId", String(response.userId));
+            localStorage.setItem("profilePictureUrl", response.profilePictureUrl ?? "");
             navigate("/");
         } catch (error) {
             setMessage((error as any).response?.data?.message ?? "Something went wrong");
