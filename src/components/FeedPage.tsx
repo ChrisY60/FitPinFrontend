@@ -140,7 +140,7 @@ function FeedPage() {
                         {post.tags.length > 0 && (
                             <div className="post-tags">
                                 {post.tags.map((tag) => (
-                                    <span key={tag.id} className="post-tag">{tag.name}</span>
+                                    <span key={tag.id} className="post-tag">#{tag.name}</span>
                                 ))}
                             </div>
                         )}

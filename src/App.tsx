@@ -1,5 +1,11 @@
 import React from 'react'
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  React.useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+}
 import './App.css'
 import RegistrationForm from './components/RegistrationForm'
 import LoginForm from './components/LoginForm'
@@ -22,6 +28,7 @@ function Layout() {
 
   return (
     <>
+      <ScrollToTop />
       {!hideNavbar && <Navbar />}
       <div className={hideNavbar ? 'auth-page' : 'with-navbar'}>
         <Routes>

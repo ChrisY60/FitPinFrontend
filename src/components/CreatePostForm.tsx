@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { ProductDTO } from "../api/fitPinBackendApi";
 import { createPost, getProducts } from "../api/fitPinBackendApi";
@@ -11,6 +11,8 @@ function CreatePostForm() {
 
     const [products, setProducts] = useState<ProductDTO[]>([]);
     const [productSearch, setProductSearch] = useState("");
+    const [productsLoading, setProductsLoading] = useState(false);
+    const [productsFetched, setProductsFetched] = useState(false);
     const [selectedProductIds, setSelectedProductIds] = useState<Set<number>>(new Set());
 
     const [tagInput, setTagInput] = useState("");
@@ -21,9 +23,21 @@ function CreatePostForm() {
     const navigate = useNavigate();
     const username = localStorage.getItem("username") ?? "";
 
-    useEffect(() => {
-        getProducts().then(setProducts).catch(() => setProducts([]));
-    }, []);
+    async function handleProductSearch(value: string) {
+        setProductSearch(value);
+        if (!productsFetched && value.trim()) {
+            setProductsLoading(true);
+            try {
+                const data = await getProducts();
+                setProducts(data);
+                setProductsFetched(true);
+            } catch {
+                setProducts([]);
+            } finally {
+                setProductsLoading(false);
+            }
+        }
+    }
 
     function toggleProduct(id: number) {
         setSelectedProductIds(prev => {
@@ -139,44 +153,51 @@ function CreatePostForm() {
                     <div className="product-picker">
                         <input
                             type="text"
-                            className="product-search"
+                            className={`product-search${productSearch.trim() ? " has-results" : ""}`}
                             placeholder="Search by name or brand…"
                             value={productSearch}
-                            onChange={e => setProductSearch(e.target.value)}
+                            onChange={e => handleProductSearch(e.target.value)}
                         />
-                        <ul className="product-list">
-                            {filteredProducts.length === 0 ? (
-                                <li className="product-list-empty">No products found.</li>
-                            ) : (
-                                filteredProducts.map(p => {
-                                    const selected = selectedProductIds.has(p.id);
-                                    return (
-                                        <li
-                                            key={p.id}
-                                            className={`product-list-item${selected ? " selected" : ""}`}
-                                            onClick={() => toggleProduct(p.id)}
-                                        >
-                                            <div className="product-list-check">
-                                                {selected && (
-                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
-                                                        <polyline points="20 6 9 17 4 12" />
-                                                    </svg>
-                                                )}
-                                            </div>
-                                            <img
-                                                className="product-list-img"
-                                                src={p.imageUrl ?? defaultProductImage}
-                                                alt={p.name}
-                                            />
-                                            <div className="product-list-info">
-                                                <span className="product-list-name">{p.name}</span>
-                                                <span className="product-list-brand">{p.brand.name}</span>
-                                            </div>
-                                        </li>
-                                    );
-                                })
-                            )}
-                        </ul>
+                        {productSearch.trim() && (
+                            <ul className="product-list">
+                                {productsLoading ? (
+                                    <li className="product-list-loading">
+                                        <span className="product-list-spinner" />
+                                        Loading…
+                                    </li>
+                                ) : filteredProducts.length === 0 ? (
+                                    <li className="product-list-empty">No products found.</li>
+                                ) : (
+                                    filteredProducts.map(p => {
+                                        const selected = selectedProductIds.has(p.id);
+                                        return (
+                                            <li
+                                                key={p.id}
+                                                className={`product-list-item${selected ? " selected" : ""}`}
+                                                onClick={() => toggleProduct(p.id)}
+                                            >
+                                                <div className="product-list-check">
+                                                    {selected && (
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                                                            <polyline points="20 6 9 17 4 12" />
+                                                        </svg>
+                                                    )}
+                                                </div>
+                                                <img
+                                                    className="product-list-img"
+                                                    src={p.imageUrl ?? defaultProductImage}
+                                                    alt={p.name}
+                                                />
+                                                <div className="product-list-info">
+                                                    <span className="product-list-name">{p.name}</span>
+                                                    <span className="product-list-brand">{p.brand.name}</span>
+                                                </div>
+                                            </li>
+                                        );
+                                    })
+                                )}
+                            </ul>
+                        )}
                     </div>
 
                     {/* ── Tags ── */}

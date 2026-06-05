@@ -66,8 +66,9 @@
 @media (max-width: 767px) {
   .navbar-item {
     flex: 1;
-    height: 100%;
-    padding: 8px 0;
+    height: calc(100% - 8px);
+    margin: 4px 0;
+    padding: 4px 0;
     border-radius: 8px;
   }
 }
@@ -79,12 +80,18 @@
 
 .navbar-item.active {
   color: var(--color-important);
+  background: rgba(106, 15, 73, 0.1);
 }
 
 .navbar-item.active .navbar-icon {
   filter: none;
   opacity: 1;
 }
+
+.navbar-item.active .navbar-label {
+  font-weight: 700;
+}
+
 
 /* ── Icon image ────────────────────────────────────── */
 
