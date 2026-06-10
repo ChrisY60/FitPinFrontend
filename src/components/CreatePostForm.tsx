@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import type { ProductDTO } from "../api/fitPinBackendApi";
 import { createPost, getProducts } from "../api/fitPinBackendApi";
 import defaultProductImage from "../assets/default_product_image.png";
+import { useConfirmDialog } from "../context/ConfirmDialogContext";
+import { useUnsavedChanges } from "../context/UnsavedChangesContext";
+import { CAPTION_LIMIT } from "../constants";
 import "./CreatePostForm.css";
 
 function CreatePostForm() {
@@ -72,8 +75,25 @@ function CreatePostForm() {
         p.brand.name.toLowerCase().includes(productSearch.toLowerCase())
     );
 
-    async function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
+    const { setDirty, confirmDiscard } = useUnsavedChanges();
+    const { confirm } = useConfirmDialog();
+
+    const hasUnsavedChanges =
+        imageUrl.trim() !== "" ||
+        caption.trim() !== "" ||
+        selectedProductIds.size > 0 ||
+        tags.length > 0 ||
+        tagInput.trim() !== "";
+
+    React.useEffect(() => {
+        setDirty(hasUnsavedChanges);
+    }, [hasUnsavedChanges, setDirty]);
+
+    function handleCancel() {
+        confirmDiscard(() => navigate("/"));
+    }
+
+    async function publishPost() {
         setError("");
         setSubmitting(true);
         try {
@@ -83,6 +103,7 @@ function CreatePostForm() {
                 productIds: [...selectedProductIds],
                 tagNames: tags,
             });
+            setDirty(false);
             navigate("/");
         } catch (err: unknown) {
             const msg = (err as { response?: { data?: { message?: string } } })
@@ -91,6 +112,17 @@ function CreatePostForm() {
         } finally {
             setSubmitting(false);
         }
+    }
+
+    function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        confirm({
+            title: "Share post?",
+            message: "Once shared, this post will be visible to your followers.",
+            confirmLabel: "Share",
+            variant: "default",
+            onConfirm: publishPost,
+        });
     }
 
     return (
@@ -127,7 +159,9 @@ function CreatePostForm() {
                         value={caption}
                         onChange={e => setCaption(e.target.value)}
                         rows={3}
+                        maxLength={CAPTION_LIMIT}
                     />
+                    <span className="caption-char-count">{caption.length}/{CAPTION_LIMIT}</span>
 
                     {/* ── Product Picker ── */}
                     <label className="create-post-label">Products worn</label>
@@ -231,9 +265,14 @@ function CreatePostForm() {
 
                     {error && <p className="create-post-error">{error}</p>}
 
-                    <button type="submit" disabled={submitting}>
-                        {submitting ? "Posting…" : "Share"}
-                    </button>
+                    <div className="create-post-actions">
+                        <button type="button" className="create-post-cancel" onClick={handleCancel} disabled={submitting}>
+                            Cancel
+                        </button>
+                        <button type="submit" disabled={submitting}>
+                            {submitting ? "Posting…" : "Share"}
+                        </button>
+                    </div>
 
                 </form>
             </div>

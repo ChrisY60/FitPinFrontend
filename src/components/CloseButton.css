@@ -1,0 +1,22 @@
+/* Sits at the end of a flex header row, pushed to the right */
+.icon-close-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    transition: color 0.15s;
+}
+
+.icon-close-btn:hover {
+    color: var(--color-main);
+}
+
+.icon-close-btn svg {
+    width: 20px;
+    height: 20px;
+}

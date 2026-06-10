@@ -3,7 +3,10 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import type { PostResponseDTO, UserProfileResponse } from "../api/fitPinBackendApi";
 import { getUserPosts, getUserProfile, updateProfile } from "../api/fitPinBackendApi";
 import defaultProductImage from "../assets/default_product_image.png";
+import { useConfirmDialog } from "../context/ConfirmDialogContext";
+import { useUnsavedChanges } from "../context/UnsavedChangesContext";
 import "./ProfilePage.css";
+import CloseButton from "./CloseButton";
 
 function timeAgo(timestamp: string): string {
     const diff = Math.floor((Date.now() - new Date(timestamp).getTime()) / 1000);
@@ -64,11 +67,26 @@ function ProfilePage() {
         setModalFlipped(false);
     }
 
+    const { setDirty, confirmDiscard } = useUnsavedChanges();
+    const { confirm } = useConfirmDialog();
+
+    const hasProfileChanges =
+        editing &&
+        (editBio !== (profile?.bio ?? "") || editPictureUrl !== (profile?.profilePictureUrl ?? ""));
+
+    React.useEffect(() => {
+        setDirty(hasProfileChanges);
+    }, [hasProfileChanges, setDirty]);
+
     function startEdit() {
         setEditBio(profile?.bio ?? "");
         setEditPictureUrl(profile?.profilePictureUrl ?? "");
         setSaveError("");
         setEditing(true);
+    }
+
+    function cancelEdit() {
+        confirmDiscard(() => setEditing(false));
     }
 
     async function saveEdit() {
@@ -87,11 +105,19 @@ function ProfilePage() {
     }
 
     function handleLogout() {
-        localStorage.removeItem("isLoggedIn");
-        localStorage.removeItem("username");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("profilePictureUrl");
-        navigate("/login");
+        confirm({
+            title: "Log out?",
+            message: "You will need to log in again to access your account.",
+            confirmLabel: "Log out",
+            variant: "default",
+            onConfirm: () => {
+                localStorage.removeItem("isLoggedIn");
+                localStorage.removeItem("username");
+                localStorage.removeItem("userId");
+                localStorage.removeItem("profilePictureUrl");
+                navigate("/login");
+            },
+        });
     }
 
     if (loading) {
@@ -160,7 +186,7 @@ function ProfilePage() {
                         <button className="profile-btn-save" onClick={saveEdit} disabled={saving}>
                             {saving ? "Saving…" : "Save"}
                         </button>
-                        <button className="profile-btn-cancel" onClick={() => setEditing(false)}>
+                        <button className="profile-btn-cancel" onClick={cancelEdit}>
                             Cancel
                         </button>
                     </div>
@@ -215,11 +241,7 @@ function ProfilePage() {
                                 </div>
                             </Link>
 
-                            <button className="post-modal-close-btn" onClick={() => setSelectedPost(null)}>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round">
-                                    <path d="M18 6L6 18M6 6l12 12" />
-                                </svg>
-                            </button>
+                            <CloseButton onClick={() => setSelectedPost(null)} />
                         </div>
 
                         <div
@@ -234,14 +256,7 @@ function ProfilePage() {
                             <div className="post-image-back" onClick={e => e.stopPropagation()}>
                                 <div className="post-products-header">
                                     <span>Products</span>
-                                    <button
-                                        className="post-products-close"
-                                        onClick={e => { e.stopPropagation(); setModalFlipped(false); }}
-                                    >
-                                        <svg viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" fill="none">
-                                            <path d="M18 6L6 18M6 6l12 12" />
-                                        </svg>
-                                    </button>
+                                    <CloseButton onClick={e => { e.stopPropagation(); setModalFlipped(false); }} />
                                 </div>
                                 <ul className="post-products-list">
                                     {selectedPost.products.length === 0 ? (

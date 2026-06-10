@@ -1,0 +1,75 @@
+.unsaved-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.unsaved-modal {
+    width: 100%;
+    max-width: 360px;
+    background: var(--color-bg-card);
+    border-radius: 16px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.unsaved-modal h3 {
+    margin: 0 0 8px;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--color-main);
+}
+
+.unsaved-modal p {
+    margin: 0 0 20px;
+    font-size: 14px;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+}
+
+.unsaved-modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.unsaved-modal-keep,
+.unsaved-modal-discard {
+    flex: 1;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.unsaved-modal-keep {
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text-muted);
+}
+
+.unsaved-modal-keep:hover {
+    background: var(--color-bg-page);
+    border-color: var(--color-important);
+    color: var(--color-important);
+}
+
+.unsaved-modal-discard {
+    background: var(--color-error);
+    border: 1.5px solid var(--color-error);
+    color: #fff;
+}
+
+.unsaved-modal-discard:hover {
+    background: var(--color-error-hover);
+    border-color: var(--color-error-hover);
+}

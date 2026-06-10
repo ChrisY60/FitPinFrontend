@@ -6,6 +6,12 @@
   --color-soft:       #a7c4c2;   /* muted teal      – subtle borders, muted   */
   --color-highlight:  #97efe9;   /* bright mint     – hover, focus ring       */
 
+  /* ── Status ─────────────────────────────────────── */
+  --color-error:        #b91c1c;   /* error text, destructive actions          */
+  --color-error-hover:  #991b1b;   /* destructive action hover state           */
+  --color-error-bg:     #fef2f2;   /* error banner background                  */
+  --color-error-border: #fecaca;   /* error banner border                      */
+
   /* ── Derived / Utility ─────────────────────────── */
   --color-bg:         #ffffff;
   --color-bg-page:    #f5f0f2;   /* very light rose-white page background     */

@@ -11,15 +11,16 @@ function RegistrationForm (){
 		password: "",
 	});
 
-    const [message, setMessage] = useState<string>("");
+    const [error, setError] = useState<string>("");
+    const [success, setSuccess] = useState(false);
 
 	const handleSubmit = async () => {
+		setError("");
 		try {
-			const response = await registerUser(formData);
-			console.log("Registration successful:", response);
-		} catch (error) {
-			setMessage((error as any).response?.data?.message ?? "Something went wrong");
-			console.log("Registration failed:", error);
+			await registerUser(formData);
+			setSuccess(true);
+		} catch (err) {
+			setError((err as any).response?.data?.message ?? "Something went wrong");
 		}
 	}
 
@@ -36,33 +37,46 @@ function RegistrationForm (){
 
 			<h2>Register</h2>
 
-			{message && <p>{message}</p>}
+				{success && (
+				<p className="reg-message reg-message-success">
+					Account created successfully! You can now log in.
+				</p>
+			)}
+			{error && <p className="reg-message reg-message-error">{error}</p>}
+			<label className="auth-label" htmlFor="username">Username</label>
 			<input
+				id="username"
 				name="username"
 				type="text"
 				placeholder="Username"
 				value={formData.username}
 				onChange={handleChange}
+				disabled={success}
 			/>
 
-
-			<input 
+			<label className="auth-label" htmlFor="emailAddress">Email</label>
+			<input
+				id="emailAddress"
 				name="emailAddress"
 				type="email"
 				placeholder="Email"
 				value={formData.emailAddress}
 				onChange={handleChange}
+				disabled={success}
 			/>
 
+			<label className="auth-label" htmlFor="password">Password</label>
 			<input
+				id="password"
 				name="password"
 				type="password"
-				placeholder="password"
+				placeholder="Password"
 				value={formData.password}
 				onChange={handleChange}
+				disabled={success}
 			/>
 
-			<button onClick={handleSubmit}>Register</button>
+			<button onClick={handleSubmit} disabled={success}>Register</button>
 
 			<p className="auth-switch">
 				Already have an account? <Link to="/login">Log in here</Link>

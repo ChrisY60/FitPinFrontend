@@ -56,6 +56,49 @@ html, body {
   margin: 10px auto 28px;
 }
 
+.reg-message {
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.reg-message-success {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.reg-message-error {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+  border: 1px solid var(--color-error-border);
+}
+
+.registration-card input:disabled,
+.registration-card button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.registration-card button:disabled:hover {
+  background: var(--color-important);
+  box-shadow: none;
+  transform: none;
+}
+
+.auth-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+  display: block;
+}
+
 .registration-card input {
   width: 100%;
   box-sizing: border-box;

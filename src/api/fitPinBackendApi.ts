@@ -43,8 +43,75 @@ export type PostResponseDTO = {
 	caption: string;
 	likeCount: number;
 	commentCount: number;
+	likedByCurrentUser: boolean;
 	tags: { id: number; name: string }[];
 	products: ProductDTO[];
+}
+
+export type PostLikeResponse = {
+	liked: boolean;
+	likeCount: number;
+}
+
+export type CommentResponseDTO = {
+	id: number;
+	content: string;
+	timestamp: string;
+	authorUsername: string;
+	authorProfilePictureUrl: string | null;
+}
+
+export async function likePost(postId: number): Promise<PostLikeResponse> {
+	const response = await apiClient.post(`/posts/${postId}/likes`);
+	return response.data;
+}
+
+export async function unlikePost(postId: number): Promise<PostLikeResponse> {
+	const response = await apiClient.delete(`/posts/${postId}/likes`);
+	return response.data;
+}
+
+export async function getComments(postId: number): Promise<CommentResponseDTO[]> {
+	const response = await apiClient.get(`/posts/${postId}/comments`);
+	return response.data;
+}
+
+export async function addComment(postId: number, content: string): Promise<CommentResponseDTO> {
+	const response = await apiClient.post(`/posts/${postId}/comments`, { content });
+	return response.data;
+}
+
+export async function deleteComment(postId: number, commentId: number): Promise<void> {
+	await apiClient.delete(`/posts/${postId}/comments/${commentId}`);
+}
+
+export async function deletePost(postId: number): Promise<void> {
+	await apiClient.delete(`/posts/${postId}`);
+}
+
+export type NotificationResponseDTO = {
+	id: number;
+	type: "LIKE" | "COMMENT";
+	timestamp: string;
+	read: boolean;
+	actorUsername: string;
+	actorProfilePictureUrl: string | null;
+	postId: number | null;
+	postImageUrl: string | null;
+}
+
+export async function getNotifications(): Promise<NotificationResponseDTO[]> {
+	const response = await apiClient.get("/notifications");
+	return response.data;
+}
+
+export async function getUnreadNotificationCount(): Promise<number> {
+	const response = await apiClient.get("/notifications/unread-count");
+	return response.data.count;
+}
+
+export async function markAllNotificationsAsRead(): Promise<void> {
+	await apiClient.put("/notifications/read-all");
 }
 
 export type UserProfileResponse = {

@@ -14,6 +14,9 @@ import './colors.css'
 import FeedPage from './components/FeedPage';
 import ProfilePage from './components/ProfilePage';
 import CreatePostForm from './components/CreatePostForm';
+import NotificationsPage from './components/NotificationsPage';
+import { UnsavedChangesProvider } from './context/UnsavedChangesContext';
+import { ConfirmDialogProvider } from './context/ConfirmDialogContext';
 
 const AUTH_ROUTES = ['/login', '/register'];
 
@@ -36,6 +39,7 @@ function Layout() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/" element={<ProtectedRoute><FeedPage /></ProtectedRoute>} />
           <Route path="/profile/:username" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="/notifications" element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
           <Route path="/create-post" element={<ProtectedRoute><CreatePostForm /></ProtectedRoute>} />
         </Routes>
       </div>
@@ -46,7 +50,11 @@ function Layout() {
 function App() {
   return (
     <BrowserRouter>
-      <Layout />
+      <ConfirmDialogProvider>
+        <UnsavedChangesProvider>
+          <Layout />
+        </UnsavedChangesProvider>
+      </ConfirmDialogProvider>
     </BrowserRouter>
   );
 }

@@ -38,15 +38,19 @@ function LoginForm() {
     return (
         <div className="registration-card">
             <h2>Login</h2>
-            {message && <p>{message}</p>}
+            {message && <p className="reg-message reg-message-error">{message}</p>}
+            <label className="auth-label" htmlFor="emailOrUsername">Email or Username</label>
             <input
+                id="emailOrUsername"
                 name="emailOrUsername"
                 type="text"
                 placeholder="Email or Username"
                 value={formData.emailOrUsername}
                 onChange={handleChange}
             />
+            <label className="auth-label" htmlFor="password">Password</label>
             <input
+                id="password"
                 name="password"
                 type="password"
                 placeholder="Password"

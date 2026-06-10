@@ -64,7 +64,7 @@
     width: 100%;
     box-sizing: border-box;
     padding: 13px 15px;
-    margin-bottom: 16px;
+    margin-bottom: 4px;
     border: 1.5px solid var(--color-border);
     border-radius: 10px;
     font-size: 15px;
@@ -74,6 +74,14 @@
     transition: border-color 0.2s, box-shadow 0.2s;
     font-family: inherit;
     resize: none;
+}
+
+.caption-char-count {
+    display: block;
+    text-align: right;
+    font-size: 11px;
+    color: var(--color-text-muted);
+    margin-bottom: 16px;
 }
 
 .create-post-form input[type="url"]::placeholder,
@@ -378,13 +386,18 @@
 /* ── Error & submit ──────────────────────────────── */
 .create-post-error {
     font-size: 13px;
-    color: var(--color-secondary);
+    color: var(--color-error);
     margin: 0 0 12px;
     text-align: center;
 }
 
+.create-post-actions {
+    display: flex;
+    gap: 12px;
+}
+
 .create-post-form button[type="submit"] {
-    width: 100%;
+    flex: 1;
     padding: 15px;
     background: var(--color-important);
     color: #fff;
@@ -410,6 +423,32 @@
 }
 
 .create-post-form button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.create-post-cancel {
+    flex: 1;
+    padding: 15px;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    border: 1.5px solid var(--color-border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    font-family: inherit;
+}
+
+.create-post-cancel:hover:not(:disabled) {
+    background: var(--color-bg-page);
+    border-color: var(--color-important);
+    color: var(--color-important);
+}
+
+.create-post-cancel:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
